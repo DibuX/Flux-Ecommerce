@@ -1,0 +1,82 @@
+
+.summary-container {
+    background-color: #f8f9fa;
+    padding: 24px;
+    border-radius: 8px;
+  }
+  
+  .summary-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+  }
+  
+  .label {
+    color: #6c757d;
+  }
+  
+  .value {
+    font-weight: 500;
+  }
+  
+  .summary-total {
+    border-top: 1px solid #dee2e6;
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+  
+  .summary-row.total {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .tax-info {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 4px;
+  }
+  
+  .summary-checkout-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    margin-top: 8px;
+  }
+  
+  .payment-methods {
+    margin-top: 24px;
+  }
+  
+  .methods-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .methods-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .method-item {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+  
