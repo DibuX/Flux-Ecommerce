@@ -266,7 +266,7 @@ export default function LandingPage() {
       <main>
         {/* Hero Section */}
         <section id="home" className="hero-section">
-          <div className="hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }}></div>
+          <div className="hero-bg" style={{ backgroundImage: "url('/img/banner-landing.png')" }}></div>
           <div className="hero-content">
             <h1 className="animate-fade-in">
               Descubre tu estilo con <span className="accent">Flux</span>
