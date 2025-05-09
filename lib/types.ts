@@ -59,21 +59,13 @@ export interface User {
 export interface Address {
   id?: number
   user_id: number
-  first_name: string
-  last_name: string
-  address_line1: string
-  address_line2?: string
   city: string
-  state: string
+  calle: string
+  calle_numero: string
   postal_code: string
   country: string
-  phone: string
   type?: "shipping" | "billing" | "both"
   is_default?: boolean
-  // Campos antiguos mantenidos para compatibilidad
-  street?: string
-  apartment?: string
-  zip?: string
 }
 
 // Método de pago
@@ -90,9 +82,10 @@ export interface Order {
   status: "pending" | "processing" | "shipped" | "delivered" | "cancelled"
   total: number
   payment_method_id: number
-  shipping_address_id: number
-  billing_address_id?: number
+  shipping_address_id?: Address
+  billing_address_id?: Address
   items: OrderItem[]
+  created_at: string
 }
 
 // Item de pedido
@@ -103,7 +96,7 @@ export interface OrderItem {
   size_id: number
   quantity: number
   unit_price: number
-  product_name?: string
+  product_name: string
   product_image?: string
 }
 

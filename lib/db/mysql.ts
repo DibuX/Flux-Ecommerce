@@ -28,7 +28,8 @@ function getPool() {
 export async function executeQuery<T>(query: string, params: any[] = []): Promise<T[]> {
   try {
     const pool = getPool()
-    const [rows] = await pool.query(query, params)
+    const [rows] = await pool.execute(query, params)
+    pool.releaseConnection
     return rows as T[]
   } catch (error) {
     console.error("Error al ejecutar la consulta:", error)

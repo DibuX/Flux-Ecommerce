@@ -74,24 +74,24 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
               <div key={item.id} className="flex items-center py-2">
                 <div className="w-16 h-16 relative flex-shrink-0">
                   <Image
-                    src={getImageUrl(item.image || "") || "/placeholder.svg"}
-                    alt={item.name}
+                    src={getImageUrl(item.product_image || "") || "/placeholder.svg"}
+                    alt={item.product_name}
                     fill
                     className="object-cover rounded"
                   />
                 </div>
                 <div className="ml-4 flex-grow">
                   <Link href={`/productos/${item.product_id}`} className="font-medium hover:text-primary">
-                    {item.name}
+                    {item.product_name}
                   </Link>
                   <p className="text-sm text-muted-foreground">
-                    {item.size && `Talla: ${item.size}`}
+                    {item.size_id && `Talla: ${item.size_id}`}
                   </p>
                   <p className="text-sm">
                     {formatPrice(item.unit_price)} x {item.quantity}
                   </p>
                 </div>
-                <div className="font-medium">{formatPrice(item.price * item.quantity)}</div>
+                <div className="font-medium">{formatPrice(item.unit_price* item.quantity)}</div>
               </div>
             ))}
           </div>
@@ -101,7 +101,7 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white rounded-lg border border-border p-6">
           <h3 className="font-semibold mb-4">Información de Envío</h3>
-          <address className="not-italic">
+          {/* <address className="not-italic">
             <p className="font-medium">
                 {order.shipping_address ? (
                   <>
@@ -125,7 +125,7 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
             </p>
             <p>{order.shipping_address.country}</p>
             <p className="mt-2">Teléfono: {order.shipping_address.phone}</p>
-          </address>
+          </address> */}
         </div>
 
         <div className="bg-white rounded-lg border border-border p-6">

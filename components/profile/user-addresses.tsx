@@ -7,20 +7,18 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/hooks/use-toast"
-import { MapPin, Plus, Edit, Trash } from "lucide-react"
+import { MapPin, Plus, Edit, Trash, Phone } from "lucide-react"
 import type { Address } from "@/lib/types"
 import { useAuth } from "@/contexts/auth-context"
 
 const addressSchema = z.object({
-  first_name: z.string().min(2, "El nombre es requerido"),
-  last_name: z.string().min(2, "El apellido es requerido"),
-  address_line1: z.string().min(5, "La dirección es requerida"),
-  address_line2: z.string().optional(),
   city: z.string().min(2, "La ciudad es requerida"),
+  calle: z.string().min(5, "La dirección es requerida"),
+  calle_numero: z.string().min(3, "El número de calle es requerido"),
   state: z.string().min(2, "La provincia/estado es requerido"),
   postal_code: z.string().min(4, "El código postal es requerido"),
   country: z.string().min(2, "El país es requerido"),
-  phone: z.string().min(8, "El teléfono es requerido"),
+  phone: z.string().min(10, "El teléfono es requerido"),
   is_default: z.boolean().optional(),
 })
 
@@ -46,15 +44,11 @@ export default function UserAddresses({ addresses: initialAddresses }: UserAddre
   } = useForm<AddressFormValues>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      address_line1: "",
-      address_line2: "",
       city: "",
-      state: "",
+      calle: "",
+      calle_numero: "",
       postal_code: "",
       country: "Argentina",
-      phone: "",
       is_default: false,
     },
   })
@@ -94,7 +88,7 @@ export default function UserAddresses({ addresses: initialAddresses }: UserAddre
           ...data,
           id: result.id,
           user_id: Number.parseInt(user.id),
-          street: data.address_line1,
+          calle: data.calle,
           type: "shipping",
           is_default: data.is_default ?? false,
         },
@@ -156,53 +150,35 @@ export default function UserAddresses({ addresses: initialAddresses }: UserAddre
       {isAddingAddress ? (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+
             <div>
-              <label htmlFor="first_name" className="block text-sm font-medium mb-1">
-                Nombre
+              <label htmlFor="calle" className="block text-sm font-medium mb-1">
+                Calle
               </label>
               <Input
-                id="first_name"
-                {...register("first_name")}
-                className={errors.first_name ? "border-destructive" : ""}
+                id="calle"
+                {...register("calle")}
+                className={errors.calle ? "border-destructive" : ""}
                 disabled={isLoading}
               />
-              {errors.first_name && <p className="text-destructive text-sm mt-1">{errors.first_name.message}</p>}
+              {errors.calle && <p className="text-destructive text-sm mt-1">{errors.calle.message}</p>}
             </div>
 
             <div>
-              <label htmlFor="last_name" className="block text-sm font-medium mb-1">
-                Apellido
+              <label htmlFor="calle_numero" className="block text-sm font-medium mb-1">
+                Altura
               </label>
               <Input
-                id="last_name"
-                {...register("last_name")}
-                className={errors.last_name ? "border-destructive" : ""}
+                id="calle_numero"
+                {...register("calle_numero")}
+                className={errors.calle_numero ? "border-destructive" : ""}
                 disabled={isLoading}
               />
-              {errors.last_name && <p className="text-destructive text-sm mt-1">{errors.last_name.message}</p>}
+              {errors.calle_numero && <p className="text-destructive text-sm mt-1">{errors.calle_numero.message}</p>}
             </div>
-          </div>
 
-          <div>
-            <label htmlFor="address_line1" className="block text-sm font-medium mb-1">
-              Dirección
-            </label>
-            <Input
-              id="address_line1"
-              {...register("address_line1")}
-              className={errors.address_line1 ? "border-destructive" : ""}
-              disabled={isLoading}
-            />
-            {errors.address_line1 && <p className="text-destructive text-sm mt-1">{errors.address_line1.message}</p>}
           </div>
-
-          <div>
-            <label htmlFor="address_line2" className="block text-sm font-medium mb-1">
-              Dirección adicional (opcional)
-            </label>
-            <Input id="address_line2" {...register("address_line2")} disabled={isLoading} />
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label htmlFor="city" className="block text-sm font-medium mb-1">
@@ -314,16 +290,7 @@ export default function UserAddresses({ addresses: initialAddresses }: UserAddre
                       Predeterminada
                     </span>
                   )}
-                  <p className="font-medium">
-                    {address.first_name} {address.last_name}
-                  </p>
-                  <p>{address.address_line1}</p>
-                  {address.address_line2 && <p>{address.address_line2}</p>}
-                  <p>
-                    {address.city}, {address.state} {address.postal_code}
-                  </p>
                   <p>{address.country}</p>
-                  <p className="mt-1">Teléfono: {address.phone}</p>
                   <div className="mt-4 flex space-x-2">
                     <Button className="text-sm" onClick={() => setEditingAddressId(address.id || 0)}>
                       <Edit size={14} className="mr-1" />

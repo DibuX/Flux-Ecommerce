@@ -37,10 +37,18 @@ export function CartProvider({ children }: CartProviderProps) {
     try {
       const storedCart = localStorage.getItem("flux-cart")
       if (storedCart) {
-        setItems(JSON.parse(storedCart))
+        const parsed = JSON.parse(storedCart)
+        if (Array.isArray(parsed)) {
+          setItems(parsed)
+        } else {
+          console.warn("Cart data is not an array, clearing localStorage.")
+          localStorage.removeItem("flux-cart")
+          setItems([])
+        }
       }
     } catch (error) {
       console.error("Error parsing cart data from localStorage:", error)
+      setItems([])
     }
     setIsLoaded(true)
   }, [])
@@ -54,10 +62,16 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const addItem = (item: CartItem) => {
     setItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.product_id === item.product_id && i.size === item.size)
+      const existingItem = prevItems.find(
+        (i) => i.product_id === item.product_id && i.size === item.size
+      )
 
       if (existingItem) {
-        return prevItems.map((i) => (i.id === existingItem.id ? { ...i, quantity: i.quantity + item.quantity } : i))
+        return prevItems.map((i) =>
+          i.id === existingItem.id
+            ? { ...i, quantity: i.quantity + item.quantity }
+            : i
+        )
       } else {
         return [...prevItems, item]
       }
@@ -74,7 +88,11 @@ export function CartProvider({ children }: CartProviderProps) {
       return
     }
 
-    setItems((prevItems) => prevItems.map((item) => (item.id === id ? { ...item, quantity } : item)))
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      )
+    )
   }
 
   const clearCart = () => {
@@ -83,7 +101,10 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const totalItems = items.reduce((total, item) => total + item.quantity, 0)
 
-  const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0)
+  const subtotal = items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  )
 
   const value = {
     items,
@@ -95,7 +116,9 @@ export function CartProvider({ children }: CartProviderProps) {
     subtotal,
   }
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>
+  return (
+    <CartContext.Provider value={value}>{children}</CartContext.Provider>
+  )
 }
 
 export function useCart() {

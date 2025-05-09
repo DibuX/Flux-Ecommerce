@@ -6,15 +6,13 @@ import { z } from "zod"
 
 const addressSchema = z.object({
   user_id: z.string(),
-  first_name: z.string().min(2),
-  last_name: z.string().min(2),
-  address_line1: z.string().min(5),
-  address_line2: z.string().optional(),
-  city: z.string().min(2),
-  state: z.string().min(2),
+  calle: z.string().min(3),
+  calle_numero: z.string().min(3),
+  provincia: z.string().min(5),
+  city: z.string().min(5),
   postal_code: z.string().min(4),
-  country: z.string().min(2),
-  phone: z.string().min(8),
+  country: z.string().min(5),
+  phone: z.string().min(10),
   is_default: z.boolean().optional(),
 })
 

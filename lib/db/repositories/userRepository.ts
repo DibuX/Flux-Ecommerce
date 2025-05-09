@@ -98,13 +98,27 @@ export const userRepository = {
   // Obtener direcciones de un usuario
   getUserAddresses: cache(async (userId: number): Promise<Address[]> => {
     return executeQuery<Address>(
-      `SELECT id_direccion as id, id_usuario as user_id, nombre as first_name, 
-              apellido as last_name, direccion as address_line1, direccion_adicional as address_line2,
-              ciudad as city, estado as state, codigo_postal as postal_code, 
-              pais as country, telefono as phone, es_predeterminada as is_default
-       FROM direcciones
-       WHERE id_usuario = ?
-       ORDER BY es_predeterminada DESC, id_direccion DESC`,
+          
+    `SELECT 
+    d.id_direccion AS id,
+    u.id_usuario AS user_id,
+    u.nombre AS first_name,
+    u.apellido AS last_name,
+    d.calle,
+    d.calle_numero,
+    d.ciudad AS city,
+    d.postal_code,
+    d.pais AS country,
+    d.predeterminada AS is_default
+  FROM 
+    direcciones d
+  JOIN 
+    usuarios u ON u.id_usuario = d.id_usuario
+  WHERE 
+    u.id_usuario = ?
+  ORDER BY 
+    d.predeterminada DESC, 
+    d.id_direccion DESC`,
       [userId],
     )
   }),
@@ -112,20 +126,15 @@ export const userRepository = {
   // Añadir una dirección
   addAddress: async (address: Omit<Address, "id">): Promise<number> => {
     const result = await executeQuery<{ insertId: number }>(
-      `INSERT INTO direcciones (id_usuario, nombre, apellido, direccion, direccion_adicional,
-                              ciudad, estado, codigo_postal, pais, telefono, es_predeterminada)
+      `INSERT INTO direcciones (id_usuario, calle,
+                              ciudad, codigo_postal, pais, predeterminada)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         address.user_id,
-        address.first_name,
-        address.last_name,
-        address.address_line1,
-        address.address_line2 || null,
+        address.calle,
         address.city,
-        address.state,
         address.postal_code,
         address.country,
-        address.phone,
         address.is_default ? 1 : 0,
       ],
     )

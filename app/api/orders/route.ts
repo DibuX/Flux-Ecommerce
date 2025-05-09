@@ -78,8 +78,8 @@ export async function GET(request: Request) {
         [orderId],
       )
 
-      order.shipping_address = shippingAddressData[0] as Address
-      order.billing_address = billingAddressData[0] as Address
+      order.shipping_address_id = shippingAddressData[0] as Address
+      order.billing_address_id = billingAddressData[0] as Address
       order.items = orderItems as OrderItem[]
 
       return NextResponse.json({ order })
@@ -97,8 +97,7 @@ export async function GET(request: Request) {
 
     // Para cada pedido, obtener información básica
     const ordersWithDetails = await Promise.all(
-      orders.map(async (order: Order) => {
-        // Obtener dirección de envío básica
+      (orders as Order[]).map(async (order: Order) => {
         const shippingAddressData = await executeQuery(
           `SELECT nombre as first_name, apellido as last_name
            FROM direcciones
