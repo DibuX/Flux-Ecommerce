@@ -1,4 +1,3 @@
-export const dynamic = "force-dynamic";
 import "./home-styles.css"
 import Image from "next/image"
 import Link from "next/link"
