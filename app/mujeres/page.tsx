@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { productRepository } from "@/lib/db/repositories/productRepository"
 import { categoryRepository } from "@/lib/db/repositories/categoryRepository"
 import ProductGrid from "@/components/products/product-grid"

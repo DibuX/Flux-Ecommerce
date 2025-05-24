@@ -29,7 +29,6 @@ export async function executeQuery<T>(query: string, params: any[] = []): Promis
   try {
     const pool = getPool()
     const [rows] = await pool.execute(query, params)
-    pool.releaseConnection
     return rows as T[]
   } catch (error) {
     console.error("Error al ejecutar la consulta:", error)

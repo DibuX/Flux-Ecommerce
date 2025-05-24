@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import ContactForm from "@/components/contact/contact-form"
 import "./contact-styles.css"
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
